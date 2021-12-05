@@ -1,5 +1,14 @@
 package dp;
 
+import dp.behavioral.iterator.EmployeeRepository;
+import dp.behavioral.iterator.Iterator;
+import dp.behavioral.observer.CEO;
+import dp.behavioral.observer.LeadProgrammer;
+import dp.behavioral.observer.ObservableProgrammer;
+import dp.behavioral.observer.ProjectManager;
+import dp.behavioral.template.Manager;
+import dp.behavioral.template.Programmer;
+import dp.behavioral.template.TemplateEmployee;
 import dp.creational.Person;
 import dp.creational.employee.Employee;
 import dp.creational.employee.EmployeeFactory;
@@ -11,7 +20,6 @@ import dp.structural.decorator.Food;
 import dp.structural.decorator.NonVegFood;
 import dp.structural.decorator.VegFood;
 import dp.structural.facade.ShopKeeper;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -138,6 +146,37 @@ public class Main {
                 return;
             }
         } while(choice!=4);
+
+        /* Behavioral design patterns` appliance */
+        // 1 - iterator
+        EmployeeRepository employeeRepository = new EmployeeRepository();
+
+        Iterator iterator = employeeRepository.getIterator();
+        while(iterator.hasNext()) {
+            String e = (String)iterator.next();
+            System.out.println("Employee: " + e);
+        }
+
+        // 2 - template
+        TemplateEmployee templateEmployee = new Programmer();
+        templateEmployee.comeToWork();
+
+        System.out.println();
+
+        templateEmployee = new Manager();
+        templateEmployee.comeToWork();
+
+        // 3 - observer
+        ObservableProgrammer programmer = new ObservableProgrammer();
+
+        new CEO(programmer);
+        new ProjectManager(programmer);
+        new LeadProgrammer(programmer);
+
+        System.out.println("Programmer successfully did his job!");
+        programmer.setState("Successful");
+        System.out.println("Programmer failed his new assignment.");
+        programmer.setState("Failed");
     }
 }
 
